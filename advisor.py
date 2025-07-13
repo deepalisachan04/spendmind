@@ -8,7 +8,7 @@ load_dotenv()
 
 llm = ChatGoogleGenerativeAI(
     google_api_key=os.getenv("GOOGLE_API_KEY"),
-    model="gemini-1.5-flash",
+    model="models/gemini-1.5-pro-latest",  # ✅ Correct full model name
     temperature=0.6
 )
 
@@ -17,7 +17,7 @@ def ask_advisor(user_input):
     recent_spending = sum(p["price"] for p in purchases[-5:])
     need_want_ratio = calculate_need_want_ratio(purchases)
 
-    context = f"Recent spending: ${recent_spending:.2f}. Need/Want ratio: {need_want_ratio:.2f}."
+    context = f"Recent spending: ₹{recent_spending:.2f}. Need/Want ratio: {need_want_ratio:.2f}."
     full_prompt = f"{context}\nUser is considering: {user_input}\nGive clear, practical advice on whether they should buy it or wait."
 
     response = llm.invoke([HumanMessage(content=full_prompt)])
